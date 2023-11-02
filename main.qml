@@ -16,7 +16,7 @@ Window {
 
     Connections {
         target: loader_screen.item
-        function onChangeScreen() {
+        function onChangeScreen(source) {
             if (source && source != "") {
                 loader_screen.source = source
                 console.log("source change: " + source)

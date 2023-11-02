@@ -1,8 +1,14 @@
 import QtQuick 2.12
-import QtQuick.Controls 2.0
+import QtQuick.Controls.Basic
+import com.screenvm 1.0
 
 Rectangle {
     anchors.fill: parent
+
+
+    LoginVM {
+        id: screen_vm
+    }
 
     signal changeScreen(string source)
 
@@ -119,33 +125,58 @@ Rectangle {
         }
 
         onClicked: {
-            changeScreen("MainScreen.qml")
-//            console.log("Username & password: " + user_name_input.text + "\t" + password_input.text)
+            if (screen_vm.login(user_name_input.text, password_input.text)) {
+                changeScreen("MainScreen");
+            }
         }
     }
 
-//    Button {
-//        id: forgot_btn
-//        anchors.left: login_btn.right
-//        anchors.top: login_btn.top
-//        anchors.leftMargin: parent.width / 100
-//        width: login_btn.width
-//        background: Rectangle {
-//            anchors.fill: parent
-//            color: "#4942CE"
-//        }
+    Popup {
+        id: popUp
+        width: parent.width / 2
+        height: parent.height / 2
+        anchors.centerIn: parent
+        modal: true
+        focus: strue
+        closePolicy: Popup.CloseOnEscape | Popup.CloseOnPressOutside
+        visible: false
+        background: Rectangle {
+            anchors.fill: parent
+            color: "white"
+            radius: parent.width / 30
+        }
 
-//        contentItem: Text {
-//            text: "Forgot password"
-//            horizontalAlignment: Text.AlignHCenter
-//            verticalAlignment: Text.AlignVCenter
-//            font.pixelSize: user_name_title.font.pixelSize
-//            font.bold: true
-//            color: "white"
-//        }
+        contentItem: Rectangle {
+            anchors.fill: parent
+            color: "white"
+            radius: parent.width / 30
+            Text {
+                id: popUpTittle
+                text: "Login failed"
+                anchors.top: parent.top
+                anchors.horizontalCenter: parent.horizontalCenter
+                anchors.topMargin: parent.height / 8
+                color: "black"
+                font.pixelSize: parent.width / 10
+                font.bold: true
+            }
 
-//        onClicked: {
-//            console.log("Click to forgot password")
-//        }
-//    }
+            Text {
+                id: popUpMessage
+                text: "Your username or password is incorrect"
+                color: "black"
+                anchors.top: popUpTittle.bottom
+                anchors.horizontalCenter: parent.horizontalCenter
+                font.pixelSize: parent.width / 20
+            }
+            Text {
+                id: popUpMessage2
+                text: "Please try again"
+                color: "black"
+                anchors.top: popUpMessage.bottom
+                anchors.horizontalCenter: parent.horizontalCenter
+                font.pixelSize: parent.width / 20
+            }
+        }
+    }
 }

@@ -1,6 +1,7 @@
 #include <QGuiApplication>
 #include <QQmlApplicationEngine>
 #include "mainscreen.h"
+#include "loginvm.h"
 
 int main(int argc, char *argv[])
 {
@@ -8,8 +9,8 @@ int main(int argc, char *argv[])
     QCoreApplication::setAttribute(Qt::AA_EnableHighDpiScaling);
 #endif
     QGuiApplication app(argc, argv);
-
     qmlRegisterType<MainScreen>("com.screenvm", 1, 0, "MainScreenVM");
+    qmlRegisterType<LoginVM>("com.screenvm", 1, 0, "LoginVM");
 
     QQmlApplicationEngine engine;
     const QUrl url(QStringLiteral("qrc:/main.qml"));
