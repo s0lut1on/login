@@ -6,14 +6,6 @@ MainScreen::MainScreen()
     m_listKhoa << "Điện - điện tử" << "Cơ khí động lực" << "Cơ khí chế tạo máy điện";
 }
 
-void MainScreen::login()
-{
-}
-
-void MainScreen::signUp()
-{
-}
-
 QStringList MainScreen::getListNganh(QString khoa)
 {
     if (khoa == "Điện - điện tử") {

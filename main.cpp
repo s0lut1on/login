@@ -11,6 +11,7 @@ int main(int argc, char *argv[])
     QGuiApplication app(argc, argv);
     qmlRegisterType<MainScreen>("com.screenvm", 1, 0, "MainScreenVM");
     qmlRegisterType<LoginVM>("com.screenvm", 1, 0, "LoginVM");
+    qmlRegisterType<TableModel>("com.screenvm", 1, 0, "TableModel");
 
     QQmlApplicationEngine engine;
     const QUrl url(QStringLiteral("qrc:/main.qml"));

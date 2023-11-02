@@ -126,7 +126,7 @@ Rectangle {
 
         onClicked: {
             if (screen_vm.login(user_name_input.text, password_input.text)) {
-                changeScreen("MainScreen");
+                changeScreen("MainScreen.qml");
             }
         }
     }

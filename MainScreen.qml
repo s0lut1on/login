@@ -3,6 +3,7 @@ import QtQuick.Controls 2.0
 import com.screenvm 1.0
 
 Rectangle {
+    id: root
     anchors.fill: parent
 
     signal changeScreen(string source)
@@ -67,10 +68,6 @@ Rectangle {
         anchors.top: inputTenSV.top
         font.pixelSize: 15
         model: screenVM.listKhoa
-//        model: {
-//            console.log(screenVM.listKhoa)
-//            return [1, 2, 3, 4]
-//        }
     }
 
     ComboBox {
@@ -81,5 +78,26 @@ Rectangle {
         anchors.top: selectKhoa.top
         font.pixelSize: 15
         model: screenVM.getListNganh(selectKhoa.currentText)
+    }
+
+    TableView {
+        id: tableView
+        anchors.top: inputMSV.bottom
+        anchors.topMargin: parent.height / 10
+        anchors.left: parent.left
+        anchors.leftMargin: parent.width / 20
+        width: parent.width
+        height: parent.height / 3
+        model: TableModel {}
+        delegate: Rectangle {
+            implicitWidth: root.width / 7
+            implicitHeight: 50
+            border.width: 1
+
+            Text {
+                text: display
+                anchors.centerIn: parent
+            }
+        }
     }
 }
