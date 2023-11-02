@@ -28,21 +28,21 @@ Rectangle {
     }
 
     Text {
-        id: email_title
-        anchors.left: email_input.left
+        id: user_name_title
+        anchors.left: user_name_input.left
         anchors.top: login_slogan.bottom
         anchors.topMargin: parent.height / 30
-        text: "EMAIL"
+        text: "USERNAME"
         font.pixelSize: parent.width / 50
         color: "black"
     }
 
     TextField {
-        id: email_input
+        id: user_name_input
         anchors.horizontalCenter: parent.horizontalCenter
-        anchors.top: email_title.bottom
+        anchors.top: user_name_title.bottom
         anchors.topMargin: parent.height / 60
-        placeholderText: "Input Email"
+        placeholderText: "Input Username"
         placeholderTextColor: "white"
         width: parent.width / 1.3
         font.pixelSize: parent.width / 60
@@ -58,18 +58,18 @@ Rectangle {
             if (this.focus) {
                 this.placeholderText = ""
             } else if (this.text === "") {
-                this.placeholderText = "Input Email"
+                this.placeholderText = "Input Username"
             }
         }
     }
 
     Text {
         id: password_title
-        anchors.left: email_input.left
-        anchors.top: email_input.bottom
+        anchors.left: user_name_input.left
+        anchors.top: user_name_input.bottom
         anchors.topMargin: parent.height / 60
         text: "PASSWORD"
-        font.pixelSize: email_title.font.pixelSize
+        font.pixelSize: user_name_title.font.pixelSize
         color: "black"
     }
     TextField {
@@ -79,9 +79,9 @@ Rectangle {
         anchors.topMargin: parent.height / 60
         placeholderText: "Input Password"
         placeholderTextColor: "white"
-        width: email_input.width
+        width: user_name_input.width
         echoMode: TextInput.Password
-        font.pixelSize: email_input.font.pixelSize
+        font.pixelSize: user_name_input.font.pixelSize
         color: "white"
         maximumLength: 50
         background: Rectangle {
@@ -103,7 +103,7 @@ Rectangle {
         anchors.left: password_input.left
         anchors.top: password_input.bottom
         anchors.topMargin: parent.height / 20
-        width: email_input.width / 2
+        width: user_name_input.width
         background: Rectangle {
             anchors.fill: parent
             color: "#4942CE"
@@ -113,13 +113,14 @@ Rectangle {
             text: "Login"
             horizontalAlignment: Text.AlignHCenter
             verticalAlignment: Text.AlignVCenter
-            font.pixelSize: email_title.font.pixelSize
+            font.pixelSize: user_name_title.font.pixelSize
             font.bold: true
             color: "white"
         }
 
         onClicked: {
-            console.log("Email & password: " + email_input.text + "\t" + password_input.text)
+            changeScreen("MainScreen.qml")
+//            console.log("Username & password: " + user_name_input.text + "\t" + password_input.text)
         }
     }
 
@@ -138,7 +139,7 @@ Rectangle {
 //            text: "Forgot password"
 //            horizontalAlignment: Text.AlignHCenter
 //            verticalAlignment: Text.AlignVCenter
-//            font.pixelSize: email_title.font.pixelSize
+//            font.pixelSize: user_name_title.font.pixelSize
 //            font.bold: true
 //            color: "white"
 //        }

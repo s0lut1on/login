@@ -1,6 +1,6 @@
 #include <QGuiApplication>
 #include <QQmlApplicationEngine>
-
+#include "mainscreen.h"
 
 int main(int argc, char *argv[])
 {
@@ -9,7 +9,7 @@ int main(int argc, char *argv[])
 #endif
     QGuiApplication app(argc, argv);
 
-//    qmlRegisterType<MainScreen>("com.mainScreen", 1, 0, "MainScreenVM");
+    qmlRegisterType<MainScreen>("com.screenvm", 1, 0, "MainScreenVM");
 
     QQmlApplicationEngine engine;
     const QUrl url(QStringLiteral("qrc:/main.qml"));

@@ -4,19 +4,19 @@ import QtQuick.Controls 2.0
 
 Window {
     id: mainScreen
-    width: 800
-    height: 640
+    width: 1280
+    height: 720
     visible: true
 
     Loader {
         id: loader_screen
         anchors.fill: parent
-        source: "Login.qml"
+        source: "MainScreen.qml"
     }
 
     Connections {
         target: loader_screen.item
-        onChangeScreen: {
+        function onChangeScreen() {
             if (source && source != "") {
                 loader_screen.source = source
                 console.log("source change: " + source)
