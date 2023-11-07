@@ -114,40 +114,99 @@ Rectangle {
         model: screenVM.getListNganh(selectKhoa.currentText)
     }
 
-    TableView {
-        id: tableView
-        anchors.top: inputMSV.bottom
-        anchors.topMargin: parent.height / 10
-        anchors.left: dropDownList.right
-        anchors.leftMargin: 20
-        width: parent.width / 2
-        height: parent.height / 3
-        model: TableModel {}
-        delegate: Rectangle {
-            implicitWidth: {
-                if (actualWidth)
-                    return actualWidth
-                return 100
-            }
-            implicitHeight: 50
-            border.width: 1
+//    TableView {
+//        id: tableView
+//        anchors.top: inputMSV.bottom
+//        anchors.topMargin: parent.height / 10
+//        anchors.left: dropDownList.right
+//        anchors.leftMargin: 20
+//        width: parent.width / 2
+//        height: parent.height / 3
+//        model: TableModel {}
+//        delegate: Rectangle {
+//            implicitWidth: {
+//                if (actualWidth)
+//                    return actualWidth
+//                return 100
+//            }
+//            implicitHeight: 50
+//            border.width: 1
 
-            Text {
-                text: display
-                anchors.centerIn: parent
-                font.pixelSize: 13
-            }
-        }
-    }
+//            Text {
+//                text: display
+//                anchors.centerIn: parent
+//                font.pixelSize: 13
+//            }
+//        }
+//    }
 
     Rectangle {
+        property var khoaObj: []
         id: dropDownList
-        color: "gray"
+        color: "transparent"
         width: parent.width / 2.5
         height: parent.height * 3/4
         anchors.top: parent.top
         anchors.topMargin: parent.height / 10
         anchors.left: parent.left
         anchors.leftMargin: 10
+        Component.onCompleted: {
+            for (var index=0; index < screenVM.listKhoa.length; index++) {
+                var khoaItem = khoaDropdown.createObject(dropDownList)
+                khoaItem._index = index;
+                khoaItem.x = 10
+                khoaItem.y = index * 50
+                khoaItem._text = screenVM.listKhoa[index]
+                khoaItem.width = dropDownList.width
+                khoaItem.height = 50
+                khoaObj.push(khoaItem)
+            }
+
+        }
+    }
+
+    Component {
+        id: khoaDropdown
+        Item {
+            property string _text: ""
+            property int _index: 0
+            Text {
+                text: _text
+                anchors.verticalCenter: parent.verticalCenter
+                font.pixelSize: 20
+                color: "black"
+                MouseArea {
+                    anchors.fill: parent
+                    onClicked: {
+                        var listNganh = screenVM.getListNganh(_text)
+                        for (var index=_index + 1; index<screenVM.listKhoa.length; index++) {
+                            dropDownList.khoaObj[index].y += 50 * listNganh.length
+                        }
+
+                        for (var index=0; index<listNganh.length; index++) {
+                            var nganhItem = nganhDropdown.createObject(dropDownList)
+                            nganhItem.x = 20
+                            nganhItem.y = parent.parent.y + 50 + index * 50
+                            nganhItem._text = listNganh[index]
+                            nganhItem.width = dropDownList.width
+                            nganhItem.height = 50
+                        }
+                    }
+                }
+            }
+        }
+    }
+
+    Component {
+        id: nganhDropdown
+        Item {
+            property string _text: ""
+            Text {
+                text: _text
+                anchors.verticalCenter: parent.verticalCenter
+                font.pixelSize: 15
+                color: "black"
+            }
+        }
     }
 }
