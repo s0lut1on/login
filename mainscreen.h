@@ -59,8 +59,9 @@ public:
 
     QVariant data(const QModelIndex &index, int role) const override
     {
+        qDebug() << "role: " << role;
         switch (role) {
-        case Qt::DisplayRole:
+        case 0:
             if (index.column() == 0 && index.row() == 0) {
                 return "Index";
             } else if (index.column() == 1 && index.row() == 0) {
@@ -83,6 +84,19 @@ public:
                 return listStudents.at(index.row() - 1).toObject()["nganh"].toString();
             }
             return "Empty";
+        case 1:
+            qDebug() << "column: " << index.column();
+            if (index.column() == 0)
+                return 20;
+            else if (index.column() == 1)
+                return 30;
+            else if (index.column() == 2)
+                return 40;
+            else if (index.column() == 3)
+                return 50;
+            else if (index.column() == 4)
+                return 60;
+            return 50;
         default:
             break;
         }
@@ -93,7 +107,8 @@ public:
     QHash<int, QByteArray> roleNames() const override
     {
         return {
-            {Qt::DisplayRole, "display"}
+            {0, "display"},
+            {1, "actualWidth"},
         };
     }
 private:
