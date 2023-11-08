@@ -1,10 +1,13 @@
 import QtQuick 2.12
 import QtQuick.Controls 2.0
+//import QtQuick.Controls.Basic
 import com.screenvm 1.0
 
 Rectangle {
     id: root
     anchors.fill: parent
+
+    property bool newScreen: false
 
     signal changeScreen(string source)
 
@@ -84,6 +87,7 @@ Rectangle {
         anchors.left: inputTenSV.right
         anchors.leftMargin: 20
         anchors.verticalCenter: titleTenSV.verticalCenter
+        visible: !newScreen
     }
 
     ComboBox {
@@ -93,7 +97,8 @@ Rectangle {
         anchors.left: titleKhoa.right
         anchors.leftMargin: 20
         font.pixelSize: 15
-        model: screenVM.listKhoa
+        model: ["All", ...screenVM.listKhoa]
+        visible: !newScreen
     }
 
     Text {
@@ -103,6 +108,7 @@ Rectangle {
         anchors.left: titleKhoa.left
         anchors.top: titleKhoa.bottom
         anchors.topMargin: 5
+        visible: !newScreen
     }
 
     ComboBox {
@@ -111,41 +117,45 @@ Rectangle {
         anchors.verticalCenter: titleNganh.verticalCenter
         anchors.left: selectKhoa.left
         font.pixelSize: 15
-        model: screenVM.getListNganh(selectKhoa.currentText)
+        model: {
+            if (selectKhoa.currentText == "All") {
+                return []
+            } else {
+                return ["All", ...screenVM.getListNganh(selectKhoa.currentText)]
+            }
+        }
+        visible: !newScreen
     }
 
-//    TableView {
-//        id: tableView
-//        anchors.top: inputMSV.bottom
-//        anchors.topMargin: parent.height / 10
-//        anchors.left: dropDownList.right
-//        anchors.leftMargin: 20
-//        width: parent.width / 2
-//        height: parent.height / 3
-//        model: TableModel {}
-//        delegate: Rectangle {
-//            implicitWidth: {
-//                if (actualWidth)
-//                    return actualWidth
-//                return 100
-//            }
-//            implicitHeight: 50
-//            border.width: 1
+    TableView {
+        id: tableView
+        visible: false
+        anchors.top: inputMSV.bottom
+        anchors.topMargin: parent.height / 10
+        anchors.left: dropDownList.right
+        anchors.leftMargin: 20
+        width: parent.width / 2
+        height: parent.height / 3
+        model: TableModel {}
+        delegate: Rectangle {
+            implicitWidth: 100
+            implicitHeight: 50
+            border.width: 1
 
-//            Text {
-//                text: display
-//                anchors.centerIn: parent
-//                font.pixelSize: 13
-//            }
-//        }
-//    }
+            Text {
+                text: display
+                anchors.centerIn: parent
+                font.pixelSize: 13
+            }
+        }
+    }
 
     Rectangle {
         property var khoaObj: []
         id: dropDownList
         color: "transparent"
-        width: parent.width / 2.5
-        height: parent.height * 3/4
+        width: parent.width * 0.3
+        height: parent.height * 2/3
         anchors.top: parent.top
         anchors.topMargin: parent.height / 10
         anchors.left: parent.left
@@ -161,7 +171,77 @@ Rectangle {
                 khoaItem.height = 50
                 khoaObj.push(khoaItem)
             }
+        }
+    }
 
+    Button {
+        id: buttonEdit
+        width: dropDownList.width
+        height: 40
+        anchors.left: dropDownList.left
+        anchors.top: dropDownList.bottom
+        anchors.topMargin: 10
+        background: Rectangle {
+            anchors.fill: parent
+            border.width: 1
+            border.color: "black"
+        }
+
+        contentItem: Text {
+            text: "Chỉnh sửa"
+            horizontalAlignment: Text.AlignHCenter
+            verticalAlignment: Text.AlignVCenter
+            font.pixelSize: 15
+            font.bold: true
+            color: "black"
+        }
+    }
+
+    Button {
+        id: buttonAdd
+        width: buttonEdit.width
+        height: 40
+        anchors.left: buttonEdit.left
+        anchors.top: buttonEdit.bottom
+        anchors.topMargin: 5
+        visible: !newScreen
+        background: Rectangle {
+            anchors.fill: parent
+            border.width: 1
+            border.color: "black"
+        }
+
+        contentItem: Text {
+            text: "Thêm"
+            horizontalAlignment: Text.AlignHCenter
+            verticalAlignment: Text.AlignVCenter
+            font.pixelSize: 15
+            font.bold: true
+            color: "black"
+        }
+    }
+
+    Button {
+        id: buttonRemove
+        width: buttonAdd.width
+        height: 40
+        anchors.left: buttonAdd.left
+        anchors.top: buttonAdd.bottom
+        anchors.topMargin: 5
+        visible: !newScreen
+        background: Rectangle {
+            anchors.fill: parent
+            border.width: 1
+            border.color: "black"
+        }
+
+        contentItem: Text {
+            text: "Xóa"
+            horizontalAlignment: Text.AlignHCenter
+            verticalAlignment: Text.AlignVCenter
+            font.pixelSize: 15
+            font.bold: true
+            color: "black"
         }
     }
 
@@ -178,6 +258,7 @@ Rectangle {
                 MouseArea {
                     anchors.fill: parent
                     onClicked: {
+                        this.enabled = false
                         var listNganh = screenVM.getListNganh(_text)
                         for (var index=_index + 1; index<screenVM.listKhoa.length; index++) {
                             dropDownList.khoaObj[index].y += 50 * listNganh.length
@@ -206,6 +287,13 @@ Rectangle {
                 anchors.verticalCenter: parent.verticalCenter
                 font.pixelSize: 15
                 color: "black"
+                MouseArea {
+                    anchors.fill: parent
+                    onClicked: {
+                        tableView.visible = !tableView.visible
+                        newScreen = !newScreen
+                    }
+                }
             }
         }
     }

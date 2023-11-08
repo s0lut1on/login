@@ -20,31 +20,36 @@ public:
             {"ma", "123"},
             {"ten", "Nguyễn Văn A"},
             {"khoa", "Điện - điện tử"},
-            {"nganh", "Công nghệ kỹ thuật máy tính"}
+            {"nganh", "Công nghệ kỹ thuật máy tính"},
+            {"gioitinh", "nam"}
         });
         listStudents.push_back(QJsonObject {
             {"ma", "124"},
             {"ten", "Nguyễn Văn B"},
             {"khoa", "Điện - điện tử"},
-            {"nganh", "Công nghệ kỹ thuật máy tính"}
+            {"nganh", "Công nghệ kỹ thuật máy tính"},
+            {"gioitinh", "nam"}
         });
         listStudents.push_back(QJsonObject {
             {"ma", "125"},
             {"ten", "Nguyễn Văn C"},
             {"khoa", "Điện - điện tử"},
-            {"nganh", "Hệ thống nhúng và IoT"}
+            {"nganh", "Hệ thống nhúng và IoT"},
+            {"gioitinh", "nam"}
         });
         listStudents.push_back(QJsonObject {
             {"ma", "126"},
             {"ten", "Nguyễn Văn D"},
             {"khoa", "Điện - điện tử"},
-            {"nganh", "Hệ thống nhúng và IoT"}
+            {"nganh", "Hệ thống nhúng và IoT"},
+            {"gioitinh", "nam"}
         });
         listStudents.push_back(QJsonObject {
             {"ma", "127"},
             {"ten", "Nguyễn Văn E"},
             {"khoa", "Điện - điện tử"},
-            {"nganh", "Hệ thống nhúng và IoT"}
+            {"nganh", "Hệ thống nhúng và IoT"},
+            {"gioitinh", "nam"}
         });
     }
     int rowCount(const QModelIndex & = QModelIndex()) const override
@@ -54,12 +59,12 @@ public:
 
     int columnCount(const QModelIndex & = QModelIndex()) const override
     {
-        return 5;
+        return 6;
     }
 
     QVariant data(const QModelIndex &index, int role) const override
     {
-        qDebug() << "role: " << role;
+//        qDebug() << "role: " << role;
         switch (role) {
         case 0:
             if (index.column() == 0 && index.row() == 0) {
@@ -72,6 +77,8 @@ public:
                 return "Khoa";
             } else if (index.column() == 4 && index.row() == 0) {
                 return "Ngành";
+            } else if (index.column() == 5 && index.row() == 0) {
+                return "Giới tính";
             } else if (index.column() == 0) {
                 return QString::number(index.row());
             } else if (index.column() == 1) {
@@ -82,21 +89,10 @@ public:
                 return listStudents.at(index.row() - 1).toObject()["khoa"].toString();
             } else if (index.column() == 4) {
                 return listStudents.at(index.row() - 1).toObject()["nganh"].toString();
+            } else if (index.column() == 5) {
+                return listStudents.at(index.row() - 1).toObject()["gioitinh"].toString();
             }
             return "Empty";
-        case 1:
-            qDebug() << "column: " << index.column();
-            if (index.column() == 0)
-                return 20;
-            else if (index.column() == 1)
-                return 30;
-            else if (index.column() == 2)
-                return 40;
-            else if (index.column() == 3)
-                return 50;
-            else if (index.column() == 4)
-                return 60;
-            return 50;
         default:
             break;
         }
@@ -107,8 +103,7 @@ public:
     QHash<int, QByteArray> roleNames() const override
     {
         return {
-            {0, "display"},
-            {1, "actualWidth"},
+            {0, "display"}
         };
     }
 private:
