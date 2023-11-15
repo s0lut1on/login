@@ -92,7 +92,7 @@ Rectangle {
 
     ComboBox {
         id: selectKhoa
-        width: parent.width / 8
+        width: parent.width / 7
         anchors.verticalCenter: titleKhoa.verticalCenter
         anchors.left: titleKhoa.right
         anchors.leftMargin: 20
@@ -125,6 +125,29 @@ Rectangle {
             }
         }
         visible: !newScreen
+    }
+
+    Button {
+        id: buttonSelect
+        width: parent.width / 10
+        anchors.left: selectKhoa.right
+        anchors.leftMargin: 20
+        anchors.top: selectKhoa.top
+        background: Rectangle {
+            anchors.fill: parent
+            border.width: 1
+            border.color: "black"
+            radius: width / 20
+        }
+
+        contentItem: Text {
+            text: "Tìm kiếm"
+            horizontalAlignment: Text.AlignHCenter
+            verticalAlignment: Text.AlignVCenter
+            font.pixelSize: 15
+            font.bold: true
+            color: "black"
+        }
     }
 
     TableView {

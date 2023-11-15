@@ -11,7 +11,7 @@ Window {
     Loader {
         id: loader_screen
         anchors.fill: parent
-        source: "MainScreen.qml"
+        source: "Login.qml"
     }
 
     Connections {
